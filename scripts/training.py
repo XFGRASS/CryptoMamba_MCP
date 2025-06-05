@@ -16,7 +16,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 ROOT = io_tools.get_root(__file__, num_returns=2)
 
-def get_args():
+def get_args(argv=None):
     parser = ArgumentParser()
     parser.add_argument(
         "--logdir",
@@ -93,7 +93,7 @@ def get_args():
         default=200,
     )
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     return args
 
 
@@ -127,9 +127,8 @@ def load_model(config, logger_type):
     return model, normalize
 
 
-if __name__ == "__main__":
-
-    args = get_args()
+def main(argv=None):
+    args = get_args(argv)
     pl.seed_everything(args.seed)
     logdir = args.logdir
 
@@ -198,3 +197,7 @@ if __name__ == "__main__":
     trainer.fit(model, datamodule=data_module)
     if args.save_checkpoints:
         trainer.test(model, datamodule=data_module, ckpt_path=checkpoint_callback.best_model_path)
+
+
+if __name__ == "__main__":
+    main()

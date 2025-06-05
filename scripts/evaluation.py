@@ -27,7 +27,7 @@ palette = sns.color_palette('muted')
 
 ROOT = io_tools.get_root(__file__, num_returns=2)
 
-def get_args():
+def get_args(argv=None):
     parser = ArgumentParser()
     parser.add_argument(
         "--logdir",
@@ -94,7 +94,7 @@ def get_args():
         help="batch_size",
     )
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     return args
 
 def print_and_write(file, txt, add_new_line=True):
@@ -167,9 +167,8 @@ def run_model(model, dataloader, factors=None):
 
 
 
-if __name__ == "__main__":
-
-    args = get_args()
+def main(argv=None):
+    args = get_args(argv)
     pl.seed_everything(args.seed)
     logdir = args.logdir
 
@@ -234,4 +233,12 @@ if __name__ == "__main__":
     ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: '{:,.0f}K'.format(x/1000)))
     plt.savefig(plot_path, dpi=300, bbox_inches='tight')
     f.close()
+    return {
+        "plot_path": plot_path,
+        "metrics_file": f.name,
+    }
+
+
+if __name__ == "__main__":
+    main()
 

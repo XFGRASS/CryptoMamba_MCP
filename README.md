@@ -109,7 +109,19 @@ python scripts/one_day_pred.py --config CONFIG_NAME --ckpt_path PATH_TO_CHECKPOI
 If you don't provide a value for `DATE`, the code automatically predicts one day after the last day that is in the file.
 
 <!-- ### Trading Suggestion -->
- 
+
+### MCP Server
+
+An MCP server exposing training, evaluation and prediction tools is provided in
+[`mcp_server.py`](./mcp_server.py). Run it with:
+
+```
+python mcp_server.py
+```
+
+For client configuration instructions see
+[`docs/mcp_server_config.md`](docs/mcp_server_config.md).
+
 
 ## 📈 Results
 

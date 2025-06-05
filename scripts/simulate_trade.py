@@ -29,7 +29,7 @@ LABEL_DICT = {
     'itransformer': 'iTransformer',
 }
 
-def get_args():
+def get_args(argv=None):
     parser = ArgumentParser()
     parser.add_argument(
         "--accelerator",
@@ -113,7 +113,7 @@ def get_args():
         choices={'smart', 'smart_w_short', 'vanilla', 'no_strategy'},
     )
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     return args
 
 def load_model(config, ckpt_path, config_name=None):
@@ -176,8 +176,8 @@ def run_model(model, dataloader, factors=None):
     return timetamps, targets, preds
 
 
-if __name__ == '__main__':
-    args = get_args()
+def main(argv=None):
+    args = get_args(argv)
     init_dir_flag = False
     colors = ['darkblue', 'yellowgreen', 'crimson', 'darkviolet', 'orange', 'magenta']
     if args.config == 'all':
@@ -275,3 +275,8 @@ if __name__ == '__main__':
     plt.xlabel('Date')
     plt.legend(loc='upper left')
     plt.savefig(plot_path, dpi=300, bbox_inches='tight')
+    return {"plot_path": plot_path}
+
+
+if __name__ == '__main__':
+    main()
