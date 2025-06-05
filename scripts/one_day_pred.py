@@ -19,7 +19,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 ROOT = io_tools.get_root(__file__, num_returns=2)
 
-def get_args():
+def get_args(argv=None):
     parser = ArgumentParser()
     parser.add_argument(
         "--accelerator",
@@ -72,7 +72,7 @@ def get_args():
         type=int,
     )
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     return args
 
 def print_and_write(file, txt, add_new_line=True):
@@ -133,9 +133,8 @@ def run_model(model, dataloader):
 
 
 
-if __name__ == "__main__":
-
-    args = get_args()
+def main(argv=None):
+    args = get_args(argv)
 
     config = io_tools.load_config_from_yaml(f'{ROOT}/configs/training/{args.config}.yaml')
 
@@ -227,6 +226,15 @@ if __name__ == "__main__":
         print_and_write(txt_file, f'Vanilla trade: sell')
     else:
         print_and_write(txt_file, f'Vanilla trade: -')
+    return {
+        "prediction": pred,
+        "today": today,
+        "txt_file": txt_file.name,
+    }
+
+
+if __name__ == "__main__":
+    main()
 
     
 
